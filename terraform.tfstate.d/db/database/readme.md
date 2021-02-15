@@ -1,0 +1,3 @@
+name = ""
+charset = ""
+collation = ""

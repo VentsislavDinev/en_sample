@@ -1,0 +1,6 @@
+name = ""
+site_dotnet = ""
+site_scm = ""
+connection_name = ""
+connection_type = ""
+connection_value = ""

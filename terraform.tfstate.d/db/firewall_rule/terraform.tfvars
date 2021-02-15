@@ -1,0 +1,5 @@
+name = ""
+resource_group_name = ""
+server_name = ""
+start_ip_address = ""
+end_ip_address = ""

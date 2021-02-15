@@ -1,0 +1,10 @@
+name = ""
+action_email = ""
+action_custom_webhook = ""
+description = ""
+enabled = true
+severity = 1
+frequency = 3
+time_window = 3
+operator = ""
+threshold = true

@@ -1,0 +1,10 @@
+name = ""
+description = ""
+metric_namespace = ""
+metric_name = ""
+aggregation = ""
+operator = ""
+threshold = ""
+dimension_name =""
+dimension_operator = ""
+dimension_values = [""]

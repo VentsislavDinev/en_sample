@@ -1,0 +1,7 @@
+name = ""
+dns_prefix = ""
+default_node_pool_name = ""
+default_node_pool_node = ""
+default_node_pool_vm_sze = "10GB"
+type = ""
+tags_env = ""

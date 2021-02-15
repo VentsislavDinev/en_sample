@@ -1,0 +1,15 @@
+name = ""
+sku = ""
+instances = 3
+pass = ""
+username = ""
+image_publisher = ""
+image_offer = ""
+image_sku = ""
+image_version = ""
+disk_storage = ""
+disk_caching = ""
+network_interface_name = ""
+network_interface_primary = true
+network_ip_name = ""
+network_ip_primary = true
