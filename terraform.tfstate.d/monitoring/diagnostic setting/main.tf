@@ -1,8 +1,3 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
 resource "azurerm_monitor_diagnostic_setting" "example" {
   name               = var.name
   #target_resource_id = data.azurerm_key_vault.example.id

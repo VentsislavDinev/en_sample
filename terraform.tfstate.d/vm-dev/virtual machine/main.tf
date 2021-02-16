@@ -1,43 +1,8 @@
-variable "prefix" {
-  default = "tfvmex"
-}
-
-resource "azurerm_resource_group" "main" {
-  name     = "${var.prefix}-resources"
-  location = "West US 2"
-}
-
-resource "azurerm_virtual_network" "main" {
-  name                = "${var.prefix}-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-}
-
-resource "azurerm_subnet" "internal" {
-  name                 = "internal"
-  resource_group_name  = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.2.0/24"]
-}
-
-resource "azurerm_network_interface" "main" {
-  name                = "${var.prefix}-nic"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-
-  ip_configuration {
-    name                          = "testconfiguration1"
-    subnet_id                     = azurerm_subnet.internal.id
-    private_ip_address_allocation = "Dynamic"
-  }
-}
-
 resource "azurerm_virtual_machine" "main" {
   name                  = var.name
-  location              = azurerm_resource_group.main.location
-  resource_group_name   = azurerm_resource_group.main.name
-  network_interface_ids = [azurerm_network_interface.main.id]
+  location              = module.resource_group.azurerm_resource_group.example.location
+  resource_group_name   = module.resource_group.azurerm_resource_group.example.name
+  network_interface_ids = [module.network_interface.azurerm_network_interface.example.id]
   vm_size               = var.vm_size
 
   # Uncomment this line to delete the OS disk automatically when deleting the VM
@@ -65,5 +30,16 @@ resource "azurerm_virtual_machine" "main" {
   }
   os_profile_linux_config {
     disable_password_authentication = var.image_linux_disabled_pass_auth
+  }
+  provisioner "file" {
+    source      = var.source_file
+    destination = var.destination
+
+    connection {
+      type     = "winrm"
+      user     = var.admin_username
+      password = var.admin_password
+      host     = var.host
+    }
   }
 }

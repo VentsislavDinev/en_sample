@@ -1,31 +1,7 @@
-resource "azurerm_resource_group" "main" {
-  name     = "example-resources"
-  location = "West US"
-}
-
-resource "azurerm_storage_account" "to_monitor" {
-  name                     = "examplestorageaccount"
-  resource_group_name      = azurerm_resource_group.main.name
-  location                 = azurerm_resource_group.main.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
-resource "azurerm_monitor_action_group" "main" {
-  name                = "example-actiongroup"
-  resource_group_name = azurerm_resource_group.main.name
-  short_name          = "exampleact"
-
-  webhook_receiver {
-    name        = "callmyapi"
-    service_uri = "http://example.com/alert"
-  }
-}
-
 resource "azurerm_monitor_metric_alert" "example" {
   name                = var.name
-  resource_group_name = azurerm_resource_group.main.name
-  scopes              = [azurerm_storage_account.to_monitor.id]
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+  scopes              = [module.account.azurerm_storage_account.example.id]
   description         = var.description
 
   criteria {
@@ -43,6 +19,6 @@ resource "azurerm_monitor_metric_alert" "example" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.main.id
+    action_group_id = module.action_group.azurerm_monitor_action_group.test.id
   }
 }

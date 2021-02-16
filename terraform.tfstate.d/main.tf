@@ -1,6 +1,49 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "2.47.0"
+    }
+  }
+}
+provider "azurerm" {
+  features {}
+
+  subscription_id             = var.subscription_id
+  client_id                   = var.client_id
+  client_certificate_path     = var.client_certificate_path
+  client_certificate_password = var.client_certificate_password
+  tenant_id                   = var.tenant_id
+}
+
+data "azurerm_dns_zone" "example" {
+  name                = var.dns_zone_name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+}
+data "azurerm_storage_account" "example" {
+  name                = var.storage_account_name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+}
+
+data "azurerm_client_config" "current" {
+}
+
+data "azurerm_lb" "example" {
+  name                = var.lb_name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+}
+data "azurerm_lb_backend_address_pool" "example" {
+  name            = var.lb_backend_address_pool_name
+  loadbalancer_id = data.azurerm_lb.example.id
+}
+data "azurerm_virtual_network" "example" {
+  name                = var.virtual_network_name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+}
+
 module "continer_group" {
     source = ".//containers-dev/container group"
-
+    for_each = toset(var.container_group_name)
 }
 module "container_registry" {
     source = ".//containers-dev/container registry"
@@ -45,11 +88,13 @@ module "virtual_network_rule" {
 }
 module "cname_records" {
     source = ".//dns/cname_record"
-
+    dns_zone_name =  data.azurerm_dns_zone.example.name
+    resource_group_name = data.azurerm_dns_zone.example.resource_group_name
 }
 module "txt_record" {
     source = ".//dns/txt_record"
-
+    resource_group_name = data.azurerm_dns_zone.example.resource_group_name
+    dns_zone_name =  data.azurerm_dns_zone.example.name
 }
 module "key_vault_access_policy" {
     source = ".//key-vault/key_vault_access_policy"
@@ -93,9 +138,7 @@ module "rule" {
 }
 module "eventhub" {
     source = ".//messaging/eventhub"
-
 }
-
 module "action_group" {
     source = ".//monitoring/action group"
 
@@ -164,7 +207,6 @@ module "storage_container" {
     source = ".//storage/storage_container"
 
 }
-
 module "active_slot" {
     source = ".//webserver-stage/active slot"
 
@@ -183,6 +225,10 @@ module "certificate_order" {
 }
 module "environment" {
     source = ".//webserver-stage/environment"
+
+}
+module "app_service" {
+    source = ".//webserver-stage/app service"
 
 }
 module "function_app_slot" {

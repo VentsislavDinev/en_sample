@@ -1,12 +1,7 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
 resource "azurerm_kubernetes_cluster" "example" {
   name                = var.name
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = module.resource_group.azurerm_resource_group.example.location
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
   dns_prefix          = var.dns_prefix
 
   default_node_pool {
@@ -22,12 +17,4 @@ resource "azurerm_kubernetes_cluster" "example" {
   tags = {
     Environment = var.tags_env
   }
-}
-
-output "client_certificate" {
-  value = azurerm_kubernetes_cluster.example.kube_config.0.client_certificate
-}
-
-output "kube_config" {
-  value = azurerm_kubernetes_cluster.example.kube_config_raw
 }

@@ -1,12 +1,7 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West US"
-}
-
 resource "azurerm_image" "example" {
   name                = var.name
   location            = var.location
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
 
   os_disk {
     os_type  = var.os_disk_type

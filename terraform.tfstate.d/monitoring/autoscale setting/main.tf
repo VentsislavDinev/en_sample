@@ -1,17 +1,8 @@
-resource "azurerm_resource_group" "example" {
-  name     = "autoscalingTest"
-  location = "West US"
-}
-
-resource "azurerm_virtual_machine_scale_set" "example" {
-  # ...
-}
-
 resource "azurerm_monitor_autoscale_setting" "example" {
   name                = var.name
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  target_resource_id  = azurerm_virtual_machine_scale_set.example.id
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
+  location            = module.resource_group.azurerm_resource_group.example.location
+  target_resource_id  = module.machine_scale_set.azurerm_virtual_machine_scale_set.example.id
 
   profile {
     name = var.profile_name
@@ -25,7 +16,7 @@ resource "azurerm_monitor_autoscale_setting" "example" {
     rule {
       metric_trigger {
         metric_name        = var.profile_rule_metric_name
-        metric_resource_id = azurerm_virtual_machine_scale_set.example.id
+        metric_resource_id = module.machine_scale_set.azurerm_virtual_machine_scale_set.example.id
         time_grain         = var.profile_rule_time
         statistic          = var.profile_rule_statistic
         time_window        = var.profile_rule_time_window

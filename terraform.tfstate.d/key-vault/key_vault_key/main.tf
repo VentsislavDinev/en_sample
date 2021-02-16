@@ -1,7 +1,7 @@
 
 resource "azurerm_key_vault_key" "example" {
   name         = var.name
-  key_vault_id = azurerm_key_vault.example.id
+  key_vault_id = module.key_vault.azurerm_key_vault.example.id
   key_type     = var.key_type
   key_size     = var.key_size
 

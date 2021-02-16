@@ -1,15 +1,10 @@
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
 resource "azurerm_monitor_action_rule_suppression" "example" {
   name                = var.azure_name
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
 
   scope {
     type         = var.type
-    resource_ids = [azurerm_resource_group.example.id]
+    resource_ids = [module.resource_group.azurerm_resource_group.example.id]
   }
 
   suppression {

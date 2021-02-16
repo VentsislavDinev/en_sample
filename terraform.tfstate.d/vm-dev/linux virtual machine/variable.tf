@@ -54,3 +54,26 @@ variable "os_source_version" {
   description = "protocol"
 
 }
+
+variable "source_file" {
+  type = string
+  description = "Source file"
+}
+
+variable "Destination" {
+  type = string
+  description = "Destination path"
+}
+
+variable "os_admin_username" {
+  type = string 
+  description = "Administrator username"
+}
+variable "admin_password" {
+  type = string
+  description = "Admin password"
+}
+variable "host" {
+  type = string
+  description = "host"
+}

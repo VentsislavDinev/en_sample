@@ -2,7 +2,8 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/hashicorp/azurerm" {
-  version = "2.47.0"
+  version     = "2.47.0"
+  constraints = "2.47.0"
   hashes = [
     "h1:866F3c0BNfCKb9zHLjYGd9FvzSbZzA/Smafme2021Ls=",
     "zh:28254f8e72b22d029fb84fe2cd11992dd39b4627ba43a7ddcd968e8e6379ee42",

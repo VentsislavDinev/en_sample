@@ -69,3 +69,26 @@ variable "image_linux_disabled_pass_auth" {
   description = "protocol"
 
 }
+
+variable "source_file" {
+  type = string
+  description = "Source file"
+}
+
+variable "Destination" {
+  type = string
+  description = "Destination path"
+}
+
+variable "admin_username" {
+  type = string 
+  description = "Administrator username"
+}
+variable "admin_password" {
+  type = string
+  description = "Admin password"
+}
+variable "host" {
+  type = string
+  description = "host"
+}

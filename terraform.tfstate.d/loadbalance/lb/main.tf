@@ -1,22 +1,10 @@
-resource "azurerm_resource_group" "example" {
-  name     = "LoadBalancerRG"
-  location = "West US"
-}
-
-resource "azurerm_public_ip" "example" {
-  name                = "PublicIPForLB"
-  location            = "West US"
-  resource_group_name = azurerm_resource_group.example.name
-  allocation_method   = "Static"
-}
-
 resource "azurerm_lb" "example" {
   name                = var.name
   location            = var.location
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
 
   frontend_ip_configuration {
     name                 = var.frontend_ip_name
-    public_ip_address_id = azurerm_public_ip.example.id
+    public_ip_address_id = module.public_ip.azurerm_public_ip.example.id
   }
 }

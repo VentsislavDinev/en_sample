@@ -1,11 +1,6 @@
-resource "azurerm_resource_group" "example" {
-  name     = "monitoring-resources"
-  location = "West US"
-}
-
 resource "azurerm_monitor_action_group" "example" {
   name                = var.name
-  resource_group_name = azurerm_resource_group.example.name
+  resource_group_name = module.resource_group.azurerm_resource_group.example.name
   short_name          = var.short_name
 
   arm_role_receiver {
